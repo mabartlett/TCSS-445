@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8" />
+    <title>TCSS 445</title>
+    <link rel="stylesheet" href="reset.css" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <div id="flexContainer">
+        <div id="navContainer">
+            <nav id="nav"></nav>
+        </div>
+        <main id="main">
+<section id="md\01.md" class="notes-section"> 
+<h1>Architecture of a Database System</h1>
+
+<h2>Query Processor</h2>
+
+<p>Users are hungry for data, so they make queries of the data by using an <em>SQL</em> (structured query language) statement. A <em>query processor</em> contains the following components:</p>
+
+<ul><li>The <em>parser</em> makes sure the query is syntactically correct.</li><li>The <em>query rewriter</em> rewrites the query in a better way.</li><li>The <em>optimizer</em> decides what the best way is to run the query. It converts an SQL statement into a parse tree, which it uses to make a query plan. It asks the storage manager (see below) for data. This data is returned to the query processor. The optimizer can speed up the query by 1000 times.</li><li>The <em>executor</em> executes the query.</li></ul>
+
+<h2>Storage Manager</h2>
+
+<p>The <em>storage manager</em> contains the following components:</p>
+
+<ul><li><em>Access methods</em> are synonymous with data structures.</li><li>The <em>buffer manager</em> is responsible for determining what data is stored on the disk, in main memory, and in cache memory.</li><li>The <em>log manager</em> keeps the system resilient against failures. It determines the system&#39;s recovery methods.</li><li>The <em>lock manager</em> handles concurrency by temporarily locking the mutation of data.</li></ul>
+
+<h2>Process Manager</h2>
+
+<p>Another component that a database system may contain is the <em>process manager</em>. Its sub-components include the <em>admission controller</em>, which determines how many queries a system can handle at once, and the <em>connection manager</em>, which manages the connection between the users and the database.</p>
+
+<h2>Shared Utilities</h2>
+
+<p>A database management system may also include <em>shared utilities</em>, which includes the following components: </p>
+
+<ul><li><em>Admin utilities</em> provide different roles/permissions to each user.</li><li>The <em>memory manager</em> and the <em>disk space manager</em> are self-explanatory.</li><li><em>Replication services</em> are complex services that back up the data.</li></ul>
+</section> 
+<section id="md\02.md" class="notes-section"> 
+<h1>Introduction to Databases</h1>
+
+<h2>Databases and Database Models</h2>
+
+<p>A <strong>database</strong> is a very large collection of related data. A <strong>database management system</strong> (DBMS) provides efficient, reliable, convenient, and safe multi-user storage of and access to massive amounts of persistent data. It is a software package or system that reads and writes directly to a database. A <strong>database system</strong> is a DBMS in addition to data and applications. The database system is the whole picture.</p>
+
+<p>A <strong>database model</strong> consists of entities, relationships, and business logic. Any entry in a database model is an <em>entity</em>. These entities have <em>relationships</em> between each other. For example, a student is enrolled in many courses and these courses are attended by many students. <em>Business logic</em> are the active components. For example, a student cannot take more than 18 credits per quarter. A <strong>schema</strong> describes how data is to be structured. It is defined at set-up time and rarely changes.</p>
+
+<h2>Why Use Databases?</h2>
+
+<p>The reason we cannot simply store data in &quot;flat&quot; files is that data can be redundant and inconsistent. There are multiple file formats and information can be duplicated in different files. The worst word there is in database systems is &quot;redundancy.&quot; Another issue that arises from storing data this way is that every query has to have its own program. We want retrieval to be easy to write and we want queries to execute efficiently. The third problem is that the data has no integrity: concurrency allows simultaneous modifications, system crashes can cause unwanted modifications (or lack thereof), and entries can be made in error. These kind of systems are not necessarily very secure.</p>
+
+<p>Storage in databases allows for the expression of relationships between entities. Each entity, and their relationships, are stored once and only once.</p>
+</section> 
+<section id="md\03.md" class="notes-section"> 
+<h1>The Entity-Relationship Model</h1>
+
+<h2>Introduction</h2>
+
+<p>A <strong>data model</strong> is a plan or blueprint for a database design. The <strong>entity-relationship model</strong> (ER model) is a data model that provides a way to represent entities and their attributes. The entities in an ER model become the rows in a database table and the entities&#39; attributes become the columns. (An entity in an ER diagram is typically given a singular name while the corresponding table&#39;s name is plural.) The ER model version used in this course is the Information Engineering (IE) model, a.k.a. the &quot;crow&#39;s foot&quot; model. Here is an example:</p>
+
+<pre><code>  Employee
+┌────────────────┐
+│ EmployeeNumber │
+├────────────────┤
+│ EmployeeName   │
+│ Phone          │
+│ Email          │
+└────────────────┘</code></pre>
+
+<p>In this example, the <strong>identifier</strong> for the employee is EmployeeNumber. That is, it is an attribute, or group of attributes, that is <em>unique</em> for each entity that differentiates each entity from all others. When there are multiple attributes that identify entities, they are called <strong>composite identifiers</strong>. Identifiers become <em>keys</em> in tables.</p>
+
+<p>We&#39;ve covered the &quot;E&quot; in &quot;ER,&quot; so now let&#39;s discuss relationships. Most relationships are <em>binary</em> (i.e., between two entities) but there exist <em>ternary</em> relationships (and so on). Relationships are expressed with diamonds:</p>
+
+<pre><code>┌──────────┐                 ┌──────────┐
+│ Employee ├────────◊────────┤  Skill   │
+└──────────┘  Qualification  └──────────┘</code></pre>
+
+<h2>Cardinality</h2>
+
+<p>Each relationship has a <strong>cardinality</strong>, which is limited to the following:</p>
+
+<ul><li>One-to-one (1:1)</li><li>One-to-many (1:N)</li><li>Many-to-many (N:M)</li></ul>
+
+<p>Cardinalities are displayed within the diamond that expresses the relationship. One-to-many relationships are also called <strong>parent-child relationships</strong> or <strong>has a relationships.</strong> You can indicate minimum cardinality:</p>
+
+<pre><code>┌──────────┐                 ┌──────────┐
+│ Employee ├─o──────◊──────┼─┤  Skill   │
+└──────────┘  Qualification  └──────────┘</code></pre>
+
+<p>This means each employee have at least one skill, but each skill need not be assigned to an employee. The above is an example of an <em>optional-to-mandatory</em> relationship. To say it again, in this course, we will be using the <strong>crow&#39;s foot</strong> ER diagrams. For a breakdown of all the symbols, you can visit <a href="https://www.vivekmchawla.com/erd-crows-foot-relationship-symbols-cheat-sheet/">this webpage</a>.</p>
+
+<p>You are <em>not</em> allowed to put a many-to-many relationship in your ER diagrams! You must break them up into two one-to-many relationships through an intermediary. For example, rather than many students having many courses, one student has many &quot;student courses&quot; and one course has many &quot;student courses.&quot; The table of this &quot;student course&quot; entity would have one column for the student ID and another column for the course ID. Both attributes identify a specific &quot;student course.&quot;</p>
+
+<h2>Strong and Weak Entities</h2>
+
+<p>A dotted line between entities means the identifying attributes for each entity are unique across all entities regardless of the entities&#39; relationships. These entities are called <strong>strong entities</strong>. This is contrasted with a <strong>weak entity</strong>, which are dependent upon another entity for identification. Weak entities need a parent in order to exist. They are often denoted with double lines in ER diagrams.</p>
+
+<p>When a solid line connects one entity to another, one entity&#39;s identifying attribute is added to the other entity&#39;s identifying attributes. When a dotted line connects two entities, one entity&#39;s identifying attribute &quot;flies down&quot; to the other entity&#39;s list of non-identifying attributes.</p>
+</section> 
+        </main>
+    </div><!--end #flexContainer-->
+    <script src="script.js"></script>
+</body>
+</html>
