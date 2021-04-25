@@ -82,7 +82,7 @@
 
 <ul><li>One-to-one (1:1)</li><li>One-to-many (1:N)</li><li>Many-to-many (N:M)</li></ul>
 
-<p>Cardinalities are displayed within the diamond that expresses the relationship. One-to-many relationships are also called <strong>parent-child relationships</strong> or <strong>has a relationships.</strong> You can indicate minimum cardinality:</p>
+<p>Cardinalities are displayed within the diamond that expresses the relationship. A one-to-one relationship is also called a <strong>subtype relationship</strong> or an <strong>is a</strong> relationship. When an entity can have one and only one subtype, this entity is a <strong>supertype</strong> and it has a <strong>discriminator</strong> to determine which subtype it is. This kind of relationship is <em>exclusive</em>. An <em>inclusive</em> relationship is one in which an entity is many subtypes. One-to-many relationships are also called <strong>parent-child relationships</strong> or <strong>has a relationships.</strong>  You can indicate minimum cardinality:</p>
 
 <pre><code>┌──────────┐                 ┌──────────┐
 │ Employee ├─o──────◊──────┼─┤  Skill   │
@@ -97,6 +97,43 @@
 <p>A dotted line between entities means the identifying attributes for each entity are unique across all entities regardless of the entities&#39; relationships. These entities are called <strong>strong entities</strong>. This is contrasted with a <strong>weak entity</strong>, which are dependent upon another entity for identification. Weak entities need a parent in order to exist. They are often denoted with double lines in ER diagrams.</p>
 
 <p>When a solid line connects one entity to another, one entity&#39;s identifying attribute is added to the other entity&#39;s identifying attributes. When a dotted line connects two entities, one entity&#39;s identifying attribute &quot;flies down&quot; to the other entity&#39;s list of non-identifying attributes.</p>
+</section> 
+<section id="md\04.md" class="notes-section"> 
+<h1>SQL</h1>
+
+<h2>First Database</h2>
+
+<p>Let&#39;s use some SQL commands to make our first database. In MySQL, commands must end in semicolons. Here are some SQL commands:</p>
+
+<pre><code>--Two hyphens make a comment.
+CREATE DATABASE my_database;
+
+--This next command changes the active database.
+USE my_database;
+
+--Here&#39;s how you delete a database:
+DROP DATABASE my_database;</code></pre>
+
+<p>You cannot drop an active database. You must switch to another database before dropping it.</p>
+
+<p>Let&#39;s make a table! There are two ways to define a string in SQL. <code>CHAR(5)</code> sets a string of exactly 5 characters and <code>VARCHAR(5)</code> sets a string of variable length with a maximum of 5 characters. You can also use the keyword <code>MAX</code> instead of specifying a number. A list of MySQL data types can be found <a href="https://www.tutorialspoint.com/mysql/mysql-data-types.htm">on this webpage</a>.  </p>
+
+<pre><code>CREATE TABLE Campuses
+(
+    CampusId CHAR(3) PRIMARY KEY,
+    CampusName VARCHAR(40),
+    CampusAddr VARCHAR(50)
+);</code></pre>
+
+<p>The command <code>GO</code> can be used to run commands one after another instead of combining them. If you want to delete a table, use the command <code>DROP TABLE my_table</code>. Let&#39;s insert some data.</p>
+
+<pre><code>INSERT INTO Campuses VALUES(&#39;UWT&#39;, &#39;University of Washington Tacoma&#39;, &#39;Tacoma Address&#39;);
+INSERT INTO Campuses VALUES(&#39;UWS&#39;, &#39;University of Washington Seattle&#39;, &#39;Seattle Address&#39;);
+INSERT INTO Campuses VALUES(&#39;UWB&#39;, &#39;University of Washington Bothell&#39;, &#39;Bothell Address&#39;);</code></pre>
+
+<p>Now we can query the database.</p>
+
+<pre><code>SELECT * FROM Campuses;</code></pre>
 </section> 
         </main>
     </div><!--end #flexContainer-->
