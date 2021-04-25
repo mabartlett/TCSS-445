@@ -103,7 +103,7 @@
 
 <h2>First Database</h2>
 
-<p>Let&#39;s use some SQL commands to make our first database. In MySQL, commands must end in semicolons. Here are some SQL commands:</p>
+<p>Let&#39;s use some SQL commands to make our first database. In MySQL, commands must end in semicolons. Commands do not have to be in all capital letters, but it is a convention that some people use. Here are some SQL commands:</p>
 
 <pre><code>--Two hyphens make a comment.
 CREATE DATABASE my_database;
@@ -116,14 +116,26 @@ DROP DATABASE my_database;</code></pre>
 
 <p>You cannot drop an active database. You must switch to another database before dropping it.</p>
 
-<p>Let&#39;s make a table! There are two ways to define a string in SQL. <code>CHAR(5)</code> sets a string of exactly 5 characters and <code>VARCHAR(5)</code> sets a string of variable length with a maximum of 5 characters. You can also use the keyword <code>MAX</code> instead of specifying a number. A list of MySQL data types can be found <a href="https://www.tutorialspoint.com/mysql/mysql-data-types.htm">on this webpage</a>.  </p>
+<p>Let&#39;s make some tables! There are two ways to define a string in SQL. <code>CHAR(5)</code> sets a string of exactly 5 characters and <code>VARCHAR(5)</code> sets a string of variable length with a maximum of 5 characters. You can also use the keyword <code>MAX</code> instead of specifying a number. A list of MySQL data types can be found <a href="https://www.tutorialspoint.com/mysql/mysql-data-types.htm">on this webpage</a>.  </p>
 
 <pre><code>CREATE TABLE Campuses
 (
     CampusId CHAR(3) PRIMARY KEY,
     CampusName VARCHAR(40),
     CampusAddr VARCHAR(50)
+);
+
+CREATE TABLE Students
+(
+    StudentId int primary key,
+    FName VARCHAR(20),
+    LName VARCHAR(20),
+    CampusId CHAR(3) REFERENCES Campus(CampusId)
 );</code></pre>
+
+<p>If you want multiple attributes as primary keys, put this line at the very end of the table definition:</p>
+
+<pre><code>PRIMARY KEY (CampusId, StudentId)</code></pre>
 
 <p>The command <code>GO</code> can be used to run commands one after another instead of combining them. If you want to delete a table, use the command <code>DROP TABLE my_table</code>. Let&#39;s insert some data.</p>
 
