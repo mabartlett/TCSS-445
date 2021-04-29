@@ -65,7 +65,7 @@ li {
 }
 
 p {
-    margin: 1rem 0;
+    margin: 1.5rem 0;
     line-height: 1.25rem;
 }
 
@@ -110,8 +110,8 @@ code {
 #main {
     padding: 1rem;
     max-width: 640px;
-
     background-color: #ffffff;
+    box-sizing: border-box;
 }
 
 #flexContainer {
@@ -126,6 +126,7 @@ code {
 #navContainer {
     flex-grow: 1;
     background-color: #1F4980;
+    box-sizing: border-box;
 }
 
 #nav {
@@ -145,4 +146,23 @@ code {
 
 #nav li {
     padding: 0.5rem 0;
+}
+
+@media screen and (max-width: 1024px) {
+    #flexContainer {
+        display: block;
+    }
+
+    #nav {
+        position: static;
+    }
+
+    #navContainer {
+        max-width: 640px;
+        margin: auto;
+    }
+
+    #main {
+        margin: auto;
+    }
 }
