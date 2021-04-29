@@ -101,11 +101,22 @@
 <section id="md\04.md" class="notes-section"> 
 <h1>SQL</h1>
 
+<h2>DDL and DML</h2>
+
+<p><strong>Data Definition Language</strong> (DDL) is used to define the structure of a database and its tables. It includes commands like</p>
+
+<ul><li><code>create database</code></li><li><code>drop database</code></li><li><code>create table</code></li><li><code>drop table</code></li><li><code>truncate table</code></li><li><code>alter table</code></li></ul>
+
+<p>Dropping a table means it is removed entirely from the database while truncating it means it remains in the database but all entries are deleted.</p>
+
+<p>DDL is contrasted with the <strong>Data Manipulation Language</strong> (DML), which is concerned with insertions, deletions, and updates. Another important aspect of DML is querying a database.</p>
+
 <h2>First Database</h2>
 
-<p>Let&#39;s use some SQL commands to make our first database. In MySQL, commands must end in semicolons. Commands do not have to be in all capital letters, but it is a convention that some people use. Here are some SQL commands:</p>
+<p>Let&#39;s use some SQL commands to make our first database. In SQL, commands must end in semicolons. Commands do not have to be in all capital letters, but it is a convention that some people use. Here are some SQL commands:</p>
 
 <pre><code>--Two hyphens make a comment.
+--This command creates a database.
 CREATE DATABASE my_database;
 
 --This next command changes the active database.
@@ -130,10 +141,10 @@ CREATE TABLE Students
     StudentId int primary key,
     FName VARCHAR(20),
     LName VARCHAR(20),
-    CampusId CHAR(3) REFERENCES Campus(CampusId)
+    CampusId CHAR(3) REFERENCES Campuses(CampusId)
 );</code></pre>
 
-<p>If you want multiple attributes as primary keys, put this line at the very end of the table definition:</p>
+<p>If you want to use one of SQL&#39;s reserved keywords as a column name, such as <code>Description</code>, put square brackets around it. If you want multiple attributes as primary keys, put this line at the very end of the table definition:</p>
 
 <pre><code>PRIMARY KEY (CampusId, StudentId)</code></pre>
 
@@ -146,6 +157,52 @@ INSERT INTO Campuses VALUES(&#39;UWB&#39;, &#39;University of Washington Bothell
 <p>Now we can query the database.</p>
 
 <pre><code>SELECT * FROM Campuses;</code></pre>
+
+<h2>Constraints</h2>
+
+<p><strong>Constraints</strong> are rules about table data that are enforced by the database management system. Constraints are listed after the data type in each column&#39;s definition.</p>
+
+<ul><li><code>NULL</code> essentially means &quot;I don&#39;t know.&quot; You can also use <code>NOT NULL</code> to ensure that each entry in the column is not null.</li><li><code>UNIQUE</code> requires each entry to be unique.</li><li><code>PRIMARY KEY</code> indicates the primary key. A primary key must not be null and it must be unique.</li><li><code>DEFAULT VALUE</code> allows you to define a default value for a column.</li><li>Referential integrity assures a foreign key exists. This is done by using <code>FOREIGN KEY</code> function and then the <code>REFERENCES</code> keyword.</li><li><code>IDENTITY(A, B)</code> allows the DBMS to assign values automatically to each entry starting at integer <code>A</code>, which is incremented by amount <code>B</code> for each entry.</li></ul>
+
+<p>Constraints can be named at the end of a table&#39;s definition like so:</p>
+
+<pre><code>CONSTRAINT CampusPK PRIMARY KEY(CampusId)</code></pre>
+
+<p>Each constraint in this form can have multiple parameters.</p>
+
+<h2>ALTER Statement</h2>
+
+<p>The <code>ALTER</code> statement changes a table after creation and can change its structure, properties, or constraints.</p>
+
+<pre><code>ALTER TABLE Assignment
+    ADD CONSTRAINT EmployeeFK
+        FOREIGN KEY (EmployeeNumber)
+        REFERENCES EMPLOYEE (EmployeeNumber)
+            ON UPDATE CASCADE
+            ON DELETE NO ACTION,
+
+ALTER TABLE Customer ADD MyColumn Char(5) NULL;
+ALTER TABLE Customer DROP COLUMN MyColumn;</code></pre>
+
+<p>Note that <em>constraints may restrict dropping</em>. Another table might still be reference a column. You can also add constraints by using the alter statement.</p>
+
+<h2>UPDATE Statement</h2>
+
+<p>You can update entries in a table by using the <code>UPDATE</code> statement.</p>
+
+<pre><code>UPDATE  Customer
+SET     AreaCode = &#39;333&#39;
+WHERE   City = &#39;Denver&#39;;</code></pre>
+
+<p>In this example, <code>Customer</code> is the name of the table. It will update the area code of each entry of this table wherever the customer&#39;s city is Denver.</p>
+
+<h2>DELETE Statement</h2>
+
+<p>The <code>DELETE</code> statement removes entries from a table.</p>
+
+<pre><code>DELETE FROM customer WHERE CustomerId = 1000;</code></pre>
+
+<p>If you omit the <code>WHERE</code> clause, you will delete every row in the table.</p>
 </section> 
         </main>
     </div><!--end #flexContainer-->
