@@ -148,7 +148,7 @@ CREATE TABLE Students
 
 <pre><code>PRIMARY KEY (CampusId, StudentId)</code></pre>
 
-<p>The command <code>GO</code> can be used to run commands one after another instead of combining them. If you want to delete a table, use the command <code>DROP TABLE my_table</code>. Let&#39;s insert some data.</p>
+<p>The command <code>GO</code> can be used to run commands one after another instead of combining them. If you want to delete a table, use the command <code>DROP TABLE my_table</code>. Let&#39;s insert some data. Note that strings must be within single-quotes. To put a single quote in a string, use another single quote before it.</p>
 
 <pre><code>INSERT INTO Campuses VALUES(&#39;UWT&#39;, &#39;University of Washington Tacoma&#39;, &#39;Tacoma Address&#39;);
 INSERT INTO Campuses VALUES(&#39;UWS&#39;, &#39;University of Washington Seattle&#39;, &#39;Seattle Address&#39;);
@@ -169,6 +169,16 @@ INSERT INTO Campuses VALUES(&#39;UWB&#39;, &#39;University of Washington Bothell
 <pre><code>CONSTRAINT CampusPK PRIMARY KEY(CampusId)</code></pre>
 
 <p>Each constraint in this form can have multiple parameters.</p>
+
+<p>When you have a foreign key, you can set a <strong>deletion/update policy</strong> like so:</p>
+
+<pre><code>FOREIGN KEY(beer) REFERENCES Beers(name)
+ON DELETE SET NULL
+ON UPDATE CASCADE</code></pre>
+
+<p>The polices are limited to</p>
+
+<ul><li><code>Default</code>, which means the modification is rejected.</li><li><code>Cascade</code>, which means the same modifications are made in the referencing table.</li><li><code>Set NULL</code>, which sets the referencing column to null.</li></ul>
 
 <h2>ALTER Statement</h2>
 
@@ -203,6 +213,21 @@ WHERE   City = &#39;Denver&#39;;</code></pre>
 <pre><code>DELETE FROM customer WHERE CustomerId = 1000;</code></pre>
 
 <p>If you omit the <code>WHERE</code> clause, you will delete every row in the table.</p>
+</section> 
+<section id="md\05.md" class="notes-section"> 
+<h1>Constraints</h1>
+
+<h2>Introduction</h2>
+
+<p><strong>Constraints</strong> are rules about table data that are enforced by the database management system. Constraints are listed after the data type in each column&#39;s definition.</p>
+
+<ul><li><code>NULL</code> essentially means &quot;I don&#39;t know.&quot; You can also use <code>NOT NULL</code> to ensure that each entry in the column is not null.</li><li><code>UNIQUE</code> requires each entry to be unique.</li><li><code>PRIMARY KEY</code> indicates the primary key. A primary key must not be null and it must be unique.</li><li><code>DEFAULT VALUE</code> allows you to define a default value for a column.</li><li>Referential integrity assures a foreign key exists. This is done by using <code>FOREIGN KEY</code> function and then the <code>REFERENCES</code> keyword.</li><li><code>IDENTITY(A, B)</code> allows the DBMS to assign values automatically to each entry starting at integer <code>A</code>, which is incremented by amount <code>B</code> for each entry.</li></ul>
+
+<p>Constraints can be named at the end of a table&#39;s definition like so:</p>
+
+<pre><code>CONSTRAINT CampusPK PRIMARY KEY(CampusId)</code></pre>
+
+<p>Each constraint in this form can have multiple parameters.</p>
 </section> 
         </main>
     </div><!--end #flexContainer-->
