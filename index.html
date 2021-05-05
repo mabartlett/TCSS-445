@@ -229,6 +229,38 @@ WHERE   City = &#39;Denver&#39;;</code></pre>
 
 <p>Each constraint in this form can have multiple parameters.</p>
 </section> 
+<section id="md\06.md" class="notes-section"> 
+<h1>Normalization</h1>
+
+<h2>What Is Normalization?</h2>
+
+<p>Imagine you have one entity called Student with all these attributes:</p>
+
+<ul><li>Student ID</li><li>Course ID</li><li>Student&#39;s name</li><li>Course name</li><li>Grade</li><li>Course description</li><li>Instructor ID</li><li>Instructor&#39;s name</li></ul>
+
+<p>This causes major problems and is guilty of a cardinal sin of database design: <strong>redundancy</strong>. Many students share courses and teachers, so we should <strong>normalize</strong> this design by splitting up the Student entity into multiple entities.</p>
+
+<h2>Functional Dependency</h2>
+
+<p>A <strong>functional dependency</strong> within a relation occurs when the value of one (set of) attribute(s) &quot;determines&quot; the value of a second (set of) attributes:</p>
+
+<pre><code>ObjectColor -&gt; Weight
+x -&gt; y</code></pre>
+
+<p>We can say this as &quot;Column x determines column y&quot; or &quot;Column y is functionally dependent on column x.&quot; We call it <em>functional</em> dependency because it&#39;s similar to a mathematical function that maps an input to one and only one output. When a determinant consists of more than one attribute, we call it a <strong>composite determinant</strong>:</p>
+
+<pre><code>(StudentName, ClassName) -&gt; (Grade)</code></pre>
+
+<p>If <code>A -&gt; (B, C)</code>, then <code>A -&gt; B</code> and <code>A -&gt; C</code>.</p>
+
+<h2>Normal Forms</h2>
+
+<p>A <strong>normal form</strong> is a set of rules/conditions for a relations structure. There are five normal forms that we will study in this class and they all address redundancy:</p>
+
+<ul><li>First Normal Form (1NF): a table that qualifies as a relation is in 1NF. Each cell may only contain one value, which may be <code>NULL</code>.</li><li>Second Normal Form (2NF): a table in which there are no <em>partial dependencies</em> on the composite primary keys is in 2NF. Each attribute must be determined by all keys in a composite primary key. If an attribute isn&#39;t, then it must be moved to its own table with only the key(s) it is dependent on.</li><li>Third Normal Form (3NF): In a table in 3NF, there are no dependencies on non-key attributes.</li><li>Boyce-Codd Normal Form (BCNF): It is not allowed for a non-key column to determine a key column. If there are no such anomalies in a table, it is in BCNF.</li><li>Fourth Normal Form (4NF):</li></ul>
+
+<p>Failure at any step in this process means that one must complete the process again from the beginning.</p>
+</section> 
         </main>
     </div><!--end #flexContainer-->
     <script src="script.js"></script>
