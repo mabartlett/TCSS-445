@@ -66,7 +66,7 @@ li {
 
 p {
     margin: 1.5rem 0;
-    line-height: 1.25rem;
+    line-height: 1.5rem;
 }
 
 strong,
@@ -84,7 +84,7 @@ pre {
     font-family: "Dejavu Sans Mono", "Consolas", monospace;
     background-color: #e0e0e3;
     padding: 0.5rem;
-    line-height: 1.15rem;
+    line-height: 1.25rem;
     overflow-x: auto;
 }
 

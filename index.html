@@ -129,15 +129,13 @@ DROP DATABASE my_database;</code></pre>
 
 <p>Let&#39;s make some tables! There are two ways to define a string in SQL. <code>CHAR(5)</code> sets a string of exactly 5 characters and <code>VARCHAR(5)</code> sets a string of variable length with a maximum of 5 characters. You can also use the keyword <code>MAX</code> instead of specifying a number. A list of MySQL data types can be found <a href="https://www.tutorialspoint.com/mysql/mysql-data-types.htm">on this webpage</a>.  </p>
 
-<pre><code>CREATE TABLE Campuses
-(
+<pre><code>CREATE TABLE Campuses (
     CampusId CHAR(3) PRIMARY KEY,
     CampusName VARCHAR(40),
     CampusAddr VARCHAR(50)
 );
 
-CREATE TABLE Students
-(
+CREATE TABLE Students (
     StudentId int primary key,
     FName VARCHAR(20),
     LName VARCHAR(20),
@@ -214,21 +212,6 @@ WHERE   City = &#39;Denver&#39;;</code></pre>
 
 <p>If you omit the <code>WHERE</code> clause, you will delete every row in the table.</p>
 </section> 
-<section id="md\05.md" class="notes-section"> 
-<h1>Constraints</h1>
-
-<h2>Introduction</h2>
-
-<p><strong>Constraints</strong> are rules about table data that are enforced by the database management system. Constraints are listed after the data type in each column&#39;s definition.</p>
-
-<ul><li><code>NULL</code> essentially means &quot;I don&#39;t know.&quot; You can also use <code>NOT NULL</code> to ensure that each entry in the column is not null.</li><li><code>UNIQUE</code> requires each entry to be unique.</li><li><code>PRIMARY KEY</code> indicates the primary key. A primary key must not be null and it must be unique.</li><li><code>DEFAULT VALUE</code> allows you to define a default value for a column.</li><li>Referential integrity assures a foreign key exists. This is done by using <code>FOREIGN KEY</code> function and then the <code>REFERENCES</code> keyword.</li><li><code>IDENTITY(A, B)</code> allows the DBMS to assign values automatically to each entry starting at integer <code>A</code>, which is incremented by amount <code>B</code> for each entry.</li></ul>
-
-<p>Constraints can be named at the end of a table&#39;s definition like so:</p>
-
-<pre><code>CONSTRAINT CampusPK PRIMARY KEY(CampusId)</code></pre>
-
-<p>Each constraint in this form can have multiple parameters.</p>
-</section> 
 <section id="md\06.md" class="notes-section"> 
 <h1>Normalization</h1>
 
@@ -240,24 +223,30 @@ WHERE   City = &#39;Denver&#39;;</code></pre>
 
 <p>This causes major problems and is guilty of a cardinal sin of database design: <strong>redundancy</strong>. Many students share courses and teachers, so we should <strong>normalize</strong> this design by splitting up the Student entity into multiple entities.</p>
 
-<h2>Functional Dependency</h2>
+<h2>Dependencies</h2>
 
 <p>A <strong>functional dependency</strong> within a relation occurs when the value of one (set of) attribute(s) &quot;determines&quot; the value of a second (set of) attributes:</p>
 
-<pre><code>ObjectColor -&gt; Weight
-x -&gt; y</code></pre>
+<pre><code>ObjectColor → Weight
+x → y</code></pre>
 
 <p>We can say this as &quot;Column x determines column y&quot; or &quot;Column y is functionally dependent on column x.&quot; We call it <em>functional</em> dependency because it&#39;s similar to a mathematical function that maps an input to one and only one output. When a determinant consists of more than one attribute, we call it a <strong>composite determinant</strong>:</p>
 
-<pre><code>(StudentName, ClassName) -&gt; (Grade)</code></pre>
+<pre><code>(StudentName, ClassName) → (Grade)</code></pre>
 
-<p>If <code>A -&gt; (B, C)</code>, then <code>A -&gt; B</code> and <code>A -&gt; C</code>.</p>
+<p>If <code>A → (B, C)</code>, then <code>A → B</code> and <code>A → C</code>.</p>
+
+<p>Here is an example of a <strong>multi-valued dependency</strong>:</p>
+
+<pre><code>Student ID →→ Phone</code></pre>
+
+<p>In this example, one student can have many phone numbers.</p>
 
 <h2>Normal Forms</h2>
 
 <p>A <strong>normal form</strong> is a set of rules/conditions for a relations structure. There are five normal forms that we will study in this class and they all address redundancy:</p>
 
-<ul><li>First Normal Form (1NF): a table that qualifies as a relation is in 1NF. Each cell may only contain one value, which may be <code>NULL</code>.</li><li>Second Normal Form (2NF): a table in which there are no <em>partial dependencies</em> on the composite primary keys is in 2NF. Each attribute must be determined by all keys in a composite primary key. If an attribute isn&#39;t, then it must be moved to its own table with only the key(s) it is dependent on.</li><li>Third Normal Form (3NF): In a table in 3NF, there are no dependencies on non-key attributes.</li><li>Boyce-Codd Normal Form (BCNF): It is not allowed for a non-key column to determine a key column. If there are no such anomalies in a table, it is in BCNF.</li><li>Fourth Normal Form (4NF):</li></ul>
+<ul><li>First Normal Form (1NF): A table that qualifies as a relation is in 1NF. Each cell may only contain one value, which may be <code>NULL</code>.</li><li>Second Normal Form (2NF): A table in which there are no <em>partial dependencies</em> on the composite primary keys is in 2NF. Each attribute must be determined by all keys in a composite primary key. If an attribute isn&#39;t, then it must be moved to its own table with only the key(s) it is dependent on.</li><li>Third Normal Form (3NF): In a table in 3NF, there are no dependencies on non-key attributes.</li><li>Boyce-Codd Normal Form (BCNF): It is not allowed for a non-key column to determine a key column. If there are no such anomalies in a table, it is in BCNF.</li><li>Fourth Normal Form (4NF): When there are several multi-valued dependencies, the table is not in 4NF. If <code>A →→ B</code> and <code>A →→ C</code>, then you must break these two relations up into two separate tables to prevent redundancy.</li></ul>
 
 <p>Failure at any step in this process means that one must complete the process again from the beginning.</p>
 </section> 
