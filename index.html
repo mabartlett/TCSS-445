@@ -199,7 +199,7 @@ ALTER TABLE Customer DROP COLUMN MyColumn;</code></pre>
 <p>You can update entries in a table by using the <code>UPDATE</code> statement.</p>
 
 <pre><code>UPDATE  Customer
-SET     AreaCode = &#39;333&#39;
+SET     AreaCode = &#39;303&#39;
 WHERE   City = &#39;Denver&#39;;</code></pre>
 
 <p>In this example, <code>Customer</code> is the name of the table. It will update the area code of each entry of this table wherever the customer&#39;s city is Denver.</p>
@@ -246,12 +246,93 @@ x → y</code></pre>
 
 <p>A <strong>normal form</strong> is a set of rules/conditions for a relations structure. There are five normal forms that we will study in this class and they all address redundancy:</p>
 
-<ul><li>First Normal Form (1NF): A table that qualifies as a relation is in 1NF. Each cell may only contain one value, which may be <code>NULL</code>.</li><li>Second Normal Form (2NF): A table in which there are no <em>partial dependencies</em> on the composite primary keys is in 2NF. Each attribute must be determined by all keys in a composite primary key. If an attribute isn&#39;t, then it must be moved to its own table with only the key(s) it is dependent on.</li><li>Third Normal Form (3NF): In a table in 3NF, there are no dependencies on non-key attributes.</li><li>Boyce-Codd Normal Form (BCNF): It is not allowed for a non-key column to determine a key column. If there are no such anomalies in a table, it is in BCNF.</li><li>Fourth Normal Form (4NF): When there are several multi-valued dependencies, the table is not in 4NF. If <code>A →→ B</code> and <code>A →→ C</code>, then you must break these two relations up into two separate tables to prevent redundancy.</li></ul>
+<ul><li>First Normal Form (1NF): A table that qualifies as a relation is in 1NF. Each cell may only contain one value, which may be <code>NULL</code>.</li><li>Second Normal Form (2NF): A table in which there are no <em>partial dependencies</em> on the composite primary keys is in 2NF. Each attribute must be determined by all keys in a composite primary key. If an attribute isn&#39;t, then it must be moved to its own table with only the key(s) it is dependent on.</li><li>Third Normal Form (3NF): In a table in 3NF, there are no dependencies on non-key attributes.</li><li>Boyce-Codd Normal Form (BCNF): It is not allowed for a non-key column to determine a key column. If there are no such anomalies in a table, it is in BCNF. Otherwise, you must make tables where non-key columns do not determine key colums.</li><li>Fourth Normal Form (4NF): When there are several multi-valued dependencies, the table is not in 4NF. If <code>A →→ B</code> and <code>A →→ C</code>, then you must break these two relations up into two separate tables to prevent redundancy.</li></ul>
 
 <p>Failure at any step in this process means that one must complete the process again from the beginning.</p>
+</section> 
+<section id="md\07.md" class="notes-section"> 
+<h1>Relational Algebra</h1>
+
+<h2>What is Relational Algebra?</h2>
+
+<p>An <strong>algebra</strong> is a mathematical system consisting of <em>operands</em> and <em>operators</em>. <strong>Relational algebra</strong> is an algebra such that the operands are <em>relations</em> and the operators are designed for the most common things done to relations. The result is an algebra that can be used as a query language for relations.</p>
+
+<h2>Relational Operations</h2>
+
+<p>The basic operators for relational algebra are</p>
+
+<ol><li>selection (σ)</li><li>projection (π)</li><li>union (∪)</li><li>set difference (-)</li><li>Cartesian product (×)</li><li>rename (ρ)</li></ol>
+
+<p>You can combine operators with parentheses and precedence rules.</p>
+
+<h3>Selection</h3>
+
+<p>$$R1 := \sigma_C(R2)$$</p>
+
+<p>R2 is the relation we are querying. R1 is the new relation resulting from the selection. C is a condition that refers to the attributes of R2. Selection is a unary operation.</p>
+
+<pre><code>Bar     Beer    Price
+
+Joe&#39;s   Bud     2.50
+Joe&#39;s   Miller  2.75
+Sue&#39;s   Bud     2.50
+Sue&#39;s   Miller  3.00</code></pre>
+
+<p>$$JoeMenu := \sigma_{bar = &quot;Joe&#39;s&quot;}(Sells)$$</p>
+
+<p>This example selects all the beers from Joe&#39;s bar and makes a table out of them. The new table will not show Sue&#39;s beers.</p>
+
+<h3>Projection</h3>
+
+<p>$$R1 := \pi_L(R2)$$</p>
+
+<p>L is a list of attributes from the schema of R2. It removes a column. This is also a unary operation.</p>
+
+<p>$$Prices := \pi_{beer, price}(Sells)$$</p>
+
+<p>In this example, the bar column is removed. Non-unique rows may be removed to prevent duplicate entries. This is a controversial aspect of projection. Many choose not to remove duplicates because removing them is O(n).</p>
+
+<p>A related operation is <strong>extended projection</strong> . If R1 = (AB), then $$\pi_{A + B \rightarrow C, A, A}$$ has a new column C that contains entries that are A + B.</p>
+
+<h3>Cartesian Product</h3>
+
+<p>$$R3 := R1 \times R2$$</p>
+
+<p>Cartesian Product, a binary operation, creates a new table that contains a number of columns that is the sum of the number of columns in both tables. This operation works similarly to how Cartesian product works for sets: each row of R3 will be every possible combination of all the rows in R1 with R2. If R1 has n rows and R2 has m rows, then R3 will have n × m rows.</p>
+
+<p>A related operation is the <strong>theta join</strong> where two tables are combined with a condition. You can <a href="https://datacadamia.com/data/type/relation/operator/theta_join">read about it here</a>.</p>
+
+<p>Also related is the <strong>natural join</strong>, which is like theta join without a condition. It equates attributes of the same name and projects out one copy of each pair of equated attributes. If two columns have the same name and there are entries in this column that have the same name, natural join combines them.  Both of these latter operations use the bowtie symbol ⋈ instead of the × symbol.</p>
+
+<h3>Rename</h3>
+
+<p>$$R1 := \rho_{A1, ..., An}(R2)$$</p>
+
+<p>The rename operations renames R2 to R1. You can also rename the attributes A1, ..., An.</p>
+
+<h2>Expression Notations</h2>
+
+<p>The expression</p>
+
+<p>$$R3 := R1 \bowtie_C R2$$</p>
+
+<p>is equivalent to the following sequence:</p>
+
+<p>$$R4 := R1 \times R2$$</p>
+
+<p>$$R3 := \sigma_C(R4)$$</p>
+
+<p>You may also write it in <strong>linear notation</strong> as</p>
+
+<p>$$R3 := \sigma_C(R1 \times R2)$$</p>
+
+<p>In linear notation, there is a precedence of operators:</p>
+
+<ol><li>σ, π, ρ</li><li>×, ⋈</li><li>∩</li><li>∪, -</li></ol>
 </section> 
         </main>
     </div><!--end #flexContainer-->
     <script src="script.js"></script>
+    <script src="https://i.upmath.me/latex.js"></script>
 </body>
 </html>
