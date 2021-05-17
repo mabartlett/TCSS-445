@@ -329,6 +329,38 @@ Sue&#39;s   Miller  3.00</code></pre>
 <p>In linear notation, there is a precedence of operators:</p>
 
 <ol><li>σ, π, ρ</li><li>×, ⋈</li><li>∩</li><li>∪, -</li></ol>
+
+<p>The third option for writing expressions is by using an <strong>expression tree</strong>. I don&#39;t feel like drawing one and putting it in this webpage. Draw them in your own notes!</p>
+
+<h2>Bag Semantics</h2>
+
+<p>A <strong>bag</strong> (or multiset) is like a set, but elements can appear more than once. Bag union is different from set union:</p>
+
+<p>$$ {1, 2, 1} \cup { 1, 1, 2, 3, 1 } = {1, 1, 1, 1, 2, 2, 3} $$</p>
+
+<p>Both tables must have the same schemas in order for their union to be defined. Be aware of the fact that bag laws are <em>not</em> the same as set laws. Set union is idempotent, but bag union is not.</p>
+
+<p>A bag can have duplicates removed with the function $$\delta(R)$$ where R is some bag. Bags can be sorted, too:</p>
+
+<p>$$R1 := T_L(R2)$$</p>
+
+<p>R1 is a sorted list of tuples of R2. L is a list of 1 or more attributes of R2. Elements in R1 are sorted by L.</p>
+
+<p>There is another important bag operation: <strong>aggregation</strong>, which includes</p>
+
+<ul><li>SUM</li><li>AVG</li><li>COUNT</li><li>MIN</li><li>MAX</li></ul>
+
+<p>Aggregation loops through each element in a table to produce a single value. Note that the operation to find a median is not included. This is because finding the median is $$O(nlogn)$$, and DBMS providers would prefer not to include any algorithms that are slower than linear time.</p>
+
+<p>The <strong>grouping operation</strong> works like so:</p>
+
+<p>$$R1 := \gamma_L(R2)$$</p>
+
+<p>L is a list of elements that are either grouping attributes or one of the aggregation operators. If we had a table R with primary key A, then $$\gamma_{A, AVG(C) \rightarrow X}(R)$$ is going to take all the entries in R with identical primary key values to produce an average of their values of the C table to store it in the new table&#39;s X column. Again, you can group by more than one column.</p>
+
+<h2>Null Semantics</h2>
+
+<p>What are the values of the aggregation operations on a table that includes a null value?</p>
 </section> 
         </main>
     </div><!--end #flexContainer-->
