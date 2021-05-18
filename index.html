@@ -360,7 +360,13 @@ Sue&#39;s   Miller  3.00</code></pre>
 
 <h2>Null Semantics</h2>
 
-<p>What are the values of the aggregation operations on a table that includes a null value?</p>
+<p>What are the values of the aggregation operations on a table that includes a null value? As an example, if you use a theta-join on two tables where some columns will be null, you get either an <strong>outer join</strong>, which includes rows with null column entries, or an <strong>inner join</strong>, which includes only rows that have entirely non-null entries. An outer join is further divided into a <em>left outer join</em>, in which all entries of the first (left) table are non-null but entries of the second (right) table may be null, and a <em>right outer join</em>, which is the opposite. We say that outer join preserves <em>dangling tuples</em> by padding them with NULL ($$\omega$$). A dangling tuple is what you get when some entries are null.</p>
+
+<p>In cases where a Boolean value is expected, the truth-value of a null entry is <em>unknown</em>. This can result in unexpected behavior. For example, the expression <code>unknown == unknown</code> does <em>not</em> return &quot;true.&quot; This expression also returns &quot;unknown.&quot; Nothing is equal to null!</p>
+
+<h2>Note to the Student</h2>
+
+<p>I would highly recommend referring to the lecture slides when doing the third homework assignment. There is a lot going on here and these notes only cover a portion (albeit a large portion) of items discussed in the lecture videos.</p>
 </section> 
         </main>
     </div><!--end #flexContainer-->
