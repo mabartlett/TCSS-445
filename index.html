@@ -368,6 +368,70 @@ Sue&#39;s   Miller  3.00</code></pre>
 
 <p>I would highly recommend referring to the lecture slides when doing the third homework assignment. There is a lot going on here and these notes only cover a portion (albeit a large portion) of items discussed in the lecture videos.</p>
 </section> 
+<section id="md\08.md" class="notes-section"> 
+<h1>SQL Queries</h1>
+
+<h2>Select Statement</h2>
+
+<p>SQL is a very high-level language. It tells the database what to do, not how to do it. The query optimizer determines how best to run the query. The <strong>SELECT statement</strong> is the foundation of a query:</p>
+
+<pre><code>SELECT needed attributes
+FROM one or more tables
+WHERE some condition that defines what rows are needed;</code></pre>
+
+<p>The needed attributes are in a comma-separated list. To eliminate duplicates, use the <strong>DISTINCT</strong> keyword. To select all columns, use the <strong>asterisk</strong> keyword: <code>*</code>:</p>
+
+<pre><code>SELECT *
+FROM SKU_DATA
+WHERE Department = &#39;Water Sports&#39;;</code></pre>
+
+<p>You may also use the <strong>order by</strong> keyword to sort data:</p>
+
+<pre><code>SELECT *
+FROM ORDER_ITEM
+ORDER BY OrderNumber, Price;</code></pre>
+
+<p>Note that you can specify primary and secondary sorting constraints. The default order for sorting is ascending order. You can also specify whether you want an ascending or descending sort:</p>
+
+<pre><code>ORDER BY Price DESC, OrderNumber ASC;</code></pre>
+
+<h2>Where Clause</h2>
+
+<p>You can use <strong>Boolean operators</strong> <code>AND</code>, <code>OR</code>, and <code>NOT</code> in a query:</p>
+
+<pre><code>WHERE Department = &#39;Water Sports&#39; AND Buyer = &#39;Nancy Meyers&#39;;</code></pre>
+
+<p>The where clause allows for use of the <strong>IN</strong> keyword, which is syntactical sugar for a series of <code>OR</code> statements:</p>
+
+<pre><code>WHERE Buyer IN (&#39;Nancy Meyers&#39;, &#39;Cindy Lo&#39;, &#39;Jerry Martin&#39;);</code></pre>
+
+<p>Keep in mind you can negate an <code>IN</code> expression by using <code>NOT IN</code>. If you want to select values that are in a specific range (<em>inclusive</em>), you can use the <strong>BETWEEN</strong> keyword:</p>
+
+<pre><code>SELECT *
+FROM ORDER_ITEM
+WHERE ExtendedPrice BETWEEN 100 AND 200;</code></pre>
+
+<p>This is also syntactic sugar because you can use relational operators like <code>&lt;=</code> and <code>&gt;=</code> instead.</p>
+
+<p>The <strong>LIKE</strong> keyword allows for a regular-expression-like statement when combined with <strong>wildcard symbols</strong>, which include <code>_</code> (exactly one character) and <code>%</code> (Any set of zero or more characters):</p>
+
+<pre><code>SELECT *
+FROM SKU_DATA
+WHERE Buyer LIKE &#39;Pete%&#39;;</code></pre>
+
+<h2>Renaming</h2>
+
+<p>You can return a resulting table that has a renamed attribute by using the <strong>AS</strong> keyword:</p>
+
+<pre><code>SELECT ExtendedPrice AS Subtotal
+FROM ORDER_ITEM
+WHERE OrderNumber = 3000;</code></pre>
+
+<p>You can also perform arithmetic by using operations like <code>*</code> or <code>+</code>:</p>
+
+<pre><code>SELECT (Quantity * Price) AS EP, ExtendedPrice
+FROM ORDER_ITEM;</code></pre>
+</section> 
         </main>
     </div><!--end #flexContainer-->
     <script src="script.js"></script>
