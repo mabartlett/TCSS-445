@@ -118,10 +118,8 @@ code {
 #flexContainer {
     display: flex;
     margin: auto;
-    max-width: 1020px;
+    max-width: 1024px;
     box-sizing: border-box;
-    border-left: 1px solid #d0d0d3;
-    border-right: 1px solid #d0d0d3;
 }
 
 #navContainer {
@@ -151,7 +149,7 @@ code {
     line-height: 0.25rem;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1020px) {
     #flexContainer {
         display: block;
     }

@@ -115,14 +115,14 @@
 
 <p>Let&#39;s use some SQL commands to make our first database. In SQL, commands must end in semicolons. Commands do not have to be in all capital letters, but it is a convention that some people use. Here are some SQL commands:</p>
 
-<pre><code>--Two hyphens make a comment.
---This command creates a database.
+<pre><code>-- Two hyphens make a comment.
+-- This command creates a database.
 CREATE DATABASE my_database;
 
---This next command changes the active database.
+-- This next command changes the active database.
 USE my_database;
 
---Here&#39;s how you delete a database:
+-- Here&#39;s how you delete a database:
 DROP DATABASE my_database;</code></pre>
 
 <p>You cannot drop an active database. You must switch to another database before dropping it.</p>
@@ -413,7 +413,7 @@ WHERE ExtendedPrice BETWEEN 100 AND 200;</code></pre>
 
 <p>This is also syntactic sugar because you can use relational operators like <code>&lt;=</code> and <code>&gt;=</code> instead.</p>
 
-<p>The <strong>LIKE</strong> keyword allows for a regular-expression-like statement when combined with <strong>wildcard symbols</strong>, which include <code>_</code> (exactly one character) and <code>%</code> (Any set of zero or more characters):</p>
+<p>The <strong>LIKE</strong> keyword allows for a regular-expression-like statement when combined with <strong>wildcard symbols</strong>, which include <code>_</code> (exactly one character) and <code>%</code> (any set of zero or more characters):</p>
 
 <pre><code>SELECT *
 FROM SKU_DATA
