@@ -142,7 +142,7 @@ CREATE TABLE Students (
     CampusId CHAR(3) REFERENCES Campuses(CampusId)
 );</code></pre>
 
-<p>If you want to use one of SQL&#39;s reserved keywords as a column name, such as <code>Description</code>, put square brackets around it. If you want multiple attributes as primary keys, put this line at the very end of the table definition:</p>
+<p>If you want to use one of SQL&#39;s reserved keywords as a column name, such as <code>Description</code>, put square brackets around it (for Microsoft SQL Server) or put backticks around it (MySQL). If you want multiple attributes as primary keys, put this line at the very end of the table definition:</p>
 
 <pre><code>PRIMARY KEY (CampusId, StudentId)</code></pre>
 
