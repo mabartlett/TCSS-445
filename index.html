@@ -431,6 +431,70 @@ WHERE OrderNumber = 3000;</code></pre>
 
 <pre><code>SELECT (Quantity * Price) AS EP, ExtendedPrice
 FROM ORDER_ITEM;</code></pre>
+
+<h2>SQL Built-In Functions</h2>
+
+<pre><code>SELECT SUM (ExtendedPrice) AS Order3000Sum
+FROM ORDER_ITEM
+WHERE OrderNumber = 3000;</code></pre>
+
+<p>In this example, we find the sum of the extended price and put it in a column called Order3000Sum. Here, <code>SUM</code> is a <strong>built-in function</strong>. Others include:</p>
+
+<ul><li><code>SUM</code></li><li><code>AVG</code></li><li><code>MIN</code></li><li><code>MAX</code></li><li><code>COUNT</code></li></ul>
+
+<p>Let&#39;s see how <code>COUNT</code> works:</p>
+
+<pre><code>SELECT COUNT(*) AS NumberOfRows
+FROM ORDER_ITEM;</code></pre>
+
+<p>In this example, we select everything in the table to get a count of the number of rows. Instead of using an asterisk, you can also name a column. In this next example, we get the number of distinct departments listed in the table:</p>
+
+<pre><code>SELECT COUNT (DISTINCT Department) AS DeptCount
+FROM SKU_DATA;</code></pre>
+
+<h2>Subqueries</h2>
+
+<p>You <em>cannot</em> select a column and use an aggregate. You also <em>cannot</em> use aggregates in the <code>WHERE</code> clause. In order to do this, you must use a <strong>subquery</strong>, enclosed in parentheses in the <code>WHERE</code> clause:</p>
+
+<pre><code>SELECT SUM (ExtendedPrice) AS Revenue
+FROM ORDER_ITEM
+WHERE SKU IN
+    (SELECT SKU
+    FROM SKU_DATA
+    WHERE Department = &#39;Water Sports&#39;);</code></pre>
+
+<p>Note that subqueries are evaluated first.</p>
+
+<h2>Group By</h2>
+
+<pre><code>SELECT Buyer, COUNT(*) AS Dept_Buyer_SKU_Count
+FROM SKU_DATA
+GROUP BY Buyer;</code></pre>
+
+<p>This query lists each buyer and the number of products they are responsible for purchasing. <strong>Grouping</strong> divides the table into groups based on equality of the listed columns.
+The columns that are grouped may be selected, but <em>all other columns must be associated with an aggregate function</em>. Keep in mind the order that SQL executes statements:</p>
+
+<ol><li><code>FROM</code></li><li><code>WHERE</code></li><li><code>GROUP BY</code></li><li><code>HAVING</code></li><li><code>SELECT</code></li><li><code>ORDER BY</code></li></ol>
+
+<p>This means <code>HAVING</code> is a filter that runs after grouping.</p>
+
+<h2>Joining</h2>
+
+<pre><code>SELECT * FROM ORDER_ITEM, RETAIL_ORDER;</code></pre>
+
+<p>This query provides the cross product of the table. Another way to <strong>join</strong> two tables is by testing for equality between two tables&#39; column entries:</p>
+
+<pre><code>SELECT Buyer, ExtendedPrice
+FROM SKU_DATA, ORDER_ITEM
+WHERE SKU_DATA.SKU = ORDER_ITEM.SKU;</code></pre>
+
+<p>Another valid syntax is using the <code>JOIN</code> and <code>ON</code> keywords:</p>
+
+<pre><code>SELECT CUSTOMER.Name, ARTIST.Name
+FROM CUSTOMER JOIN CUSTOMER_ARTIST_INT
+ON Customer.CustomerID = CUSTOMER_ARTIST_INT.CustomerID;</code></pre>
+
+<p>Both forms are valid and there is no difference in performance. Joins can be chained together. Use aliases to avoid big, unwieldy lines of code. (Some DBMS&#39;s require usage of the <code>AS</code> keyword for aliases, but others do not.) Remember the different kinds of joins in relational algebra and be aware of the problem of dangling tuples!</p>
 </section> 
         </main>
     </div><!--end #flexContainer-->
