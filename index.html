@@ -434,7 +434,7 @@ FROM ORDER_ITEM;</code></pre>
 
 <h2>SQL Built-In Functions</h2>
 
-<pre><code>SELECT SUM (ExtendedPrice) AS Order3000Sum
+<pre><code>SELECT SUM(ExtendedPrice) AS Order3000Sum
 FROM ORDER_ITEM
 WHERE OrderNumber = 3000;</code></pre>
 
@@ -449,14 +449,14 @@ FROM ORDER_ITEM;</code></pre>
 
 <p>In this example, we select everything in the table to get a count of the number of rows. Instead of using an asterisk, you can also name a column. In this next example, we get the number of distinct departments listed in the table:</p>
 
-<pre><code>SELECT COUNT (DISTINCT Department) AS DeptCount
+<pre><code>SELECT COUNT(DISTINCT Department) AS DeptCount
 FROM SKU_DATA;</code></pre>
 
 <h2>Subqueries</h2>
 
 <p>You <em>cannot</em> select a column and use an aggregate. You also <em>cannot</em> use aggregates in the <code>WHERE</code> clause. In order to do this, you must use a <strong>subquery</strong>, enclosed in parentheses in the <code>WHERE</code> clause:</p>
 
-<pre><code>SELECT SUM (ExtendedPrice) AS Revenue
+<pre><code>SELECT SUM(ExtendedPrice) AS Revenue
 FROM ORDER_ITEM
 WHERE SKU IN
     (SELECT SKU
