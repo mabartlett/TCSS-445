@@ -495,6 +495,10 @@ FROM CUSTOMER JOIN CUSTOMER_ARTIST_INT
 ON Customer.CustomerID = CUSTOMER_ARTIST_INT.CustomerID;</code></pre>
 
 <p>Both forms are valid and there is no difference in performance. Joins can be chained together. Use aliases to avoid big, unwieldy lines of code. (Some DBMS&#39;s require usage of the <code>AS</code> keyword for aliases, but others do not.) Remember the different kinds of joins in relational algebra and be aware of the problem of dangling tuples!</p>
+
+<h2>Embedded SQL</h2>
+
+<p>To use <strong>embedded SQL</strong> is to embed SQL into a program. Embedded SQL serves either to accept <strong>forms</strong> or <strong>reports</strong>. Forms are interfaces that the user interacts with while reports are queries that the user is not the creator of. The most essential component to embedded SQL is the <strong>connection</strong>, in which you tell the system where the database is. You must specify the ID of the server (which can be &quot;localhost&quot;), the name of the database, the username, and the password.</p>
 </section> 
         </main>
     </div><!--end #flexContainer-->
