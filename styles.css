@@ -95,6 +95,10 @@ code {
     line-height: 1.15rem;
 }
 
+h2 + pre {
+    margin-top: 1.5rem;
+}
+
 .notes-section {
     padding-top: 2.5rem;
     margin-bottom: 2.5rem;

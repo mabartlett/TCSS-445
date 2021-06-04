@@ -500,6 +500,32 @@ ON Customer.CustomerID = CUSTOMER_ARTIST_INT.CustomerID;</code></pre>
 
 <p>To use <strong>embedded SQL</strong> is to embed SQL into a program. Embedded SQL serves either to accept <strong>forms</strong> or <strong>reports</strong>. Forms are interfaces that the user interacts with while reports are queries that the user is not the creator of. The most essential component to embedded SQL is the <strong>connection</strong>, in which you tell the system where the database is. You must specify the ID of the server (which can be &quot;localhost&quot;), the name of the database, the username, and the password.</p>
 </section> 
+<section id="md\09.md" class="notes-section"> 
+<h1>Final Things</h1>
+
+<h2>Views</h2>
+
+<p>To save a subquery for later use, you can use the <code>CREATE VIEW</code> command:</p>
+
+<pre><code>CREATE VIEW CustomerNameView AS
+    SELECT  LastName AS CustomerLastName,
+            FirstName AS CustomerFirstName
+    From    CUSTOMER;</code></pre>
+
+<p>You can use it later:</p>
+
+<pre><code>SELECT * FROM CustomerNameView;</code></pre>
+
+<p>Views can be used to protect privacy since it obscures unneeded information.</p>
+
+<h2>Indices</h2>
+
+<p>Using <strong>indices</strong> can increase efficiency. This means an O(n) runtime can become an O(logn) runtime by turning the index from a linear data structure into a binary tree.</p>
+
+<pre><code>CREATE INDEX CarIndex ON Cars (CarType);</code></pre>
+
+<p>The <code>CarType</code> column is the index by which searches are frequently made. However, indices can slow down insertions and deletions because of the required rotations.</p>
+</section> 
         </main>
     </div><!--end #flexContainer-->
     <script src="script.js"></script>
