@@ -525,6 +525,33 @@ ON Customer.CustomerID = CUSTOMER_ARTIST_INT.CustomerID;</code></pre>
 <pre><code>CREATE INDEX CarIndex ON Cars (CarType);</code></pre>
 
 <p>The <code>CarType</code> column is the index by which searches are frequently made. However, indices can slow down insertions and deletions because of the required rotations.</p>
+
+<h2>Memory and Hard Drive</h2>
+
+<p>Some data structures are disk-based while others are memory-based. Keep in mind that a hard-drive is about a thousand times slower than memory. The efficiency of a database implementation is based on the number of disk accesses. Writing to the disk requires writing at least a <strong>disk page</strong> which varies by systems. The binary-search-tree is memory-based while the b-tree is disk-based. We want each node on the b-tree to be the size of a disk page.</p>
+
+<h2>Clustered Indices</h2>
+
+<p>Indices may be <strong>clustered</strong>, which means the data is written to the disk in a sorted order. The creation of a clustered index can be good or bad. It increases the speed of searching but decreases the cost of maintenance (i.e., insertion, deletion, and updating). It also takes more disk space. To have non-clustered indices, there must be at least one clustered index.</p>
+
+<h2>Triggers</h2>
+
+<p><strong>Triggers</strong> lets us decide when to check for any condition. It prevents the user from entering bad data into the system. Triggers are replacements for assertions since assertions are so expensive.</p>
+
+<p>Triggers consist of three parts:</p>
+
+<ul><li>Event (before/after insertion or instead of inserting)</li><li>Condition</li><li>Action</li></ul>
+
+<p>Here&#39;s an example:</p>
+
+<pre><code>CREATE TRIGGER BeerTrig
+    AFTER INSERT ON Sells           -- The event
+    REFERENCING NEW ROW AS NewTuple
+    FOR EACH ROW
+    WHEN (NewTuple.beer NOT IN
+        (SELECT name FROM Beers))   -- The condition
+    INSERT INTO Beers(name)
+        VALUES(NewTuple.beer);      -- The action</code></pre>
 </section> 
         </main>
     </div><!--end #flexContainer-->
