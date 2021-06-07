@@ -114,7 +114,7 @@ h2 + pre {
 
 #main {
     padding: 1rem;
-    max-width: 680px;
+    max-width: 42.5rem;
     background-color: #ffffff;
     box-sizing: border-box;
 }
@@ -163,7 +163,7 @@ h2 + pre {
     }
 
     #navContainer {
-        max-width: 680px;
+        max-width: 42.5rem;
         margin: auto;
     }
 
