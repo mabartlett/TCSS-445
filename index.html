@@ -14,30 +14,9 @@
         </div>
         <main id="main">
 <section id="md\01.md" class="notes-section"> 
-<h1>Architecture of a Database System</h1>
-
-<h2>Query Processor</h2>
-
-<p>Users are hungry for data, so they make queries of the data by using an <em>SQL</em> (structured query language) statement. A <em>query processor</em> contains the following components:</p>
-
-<ul><li>The <em>parser</em> makes sure the query is syntactically correct.</li><li>The <em>query rewriter</em> rewrites the query in a better way.</li><li>The <em>optimizer</em> decides what the best way is to run the query. It converts an SQL statement into a parse tree, which it uses to make a query plan. It asks the storage manager (see below) for data. This data is returned to the query processor. The optimizer can speed up the query by 1000 times.</li><li>The <em>executor</em> executes the query.</li></ul>
-
-<h2>Storage Manager</h2>
-
-<p>The <em>storage manager</em> contains the following components:</p>
-
-<ul><li><em>Access methods</em> are synonymous with data structures.</li><li>The <em>buffer manager</em> is responsible for determining what data is stored on the disk, in main memory, and in cache memory.</li><li>The <em>log manager</em> keeps the system resilient against failures. It determines the system&#39;s recovery methods.</li><li>The <em>lock manager</em> handles concurrency by temporarily locking the mutation of data.</li></ul>
-
-<h2>Process Manager</h2>
-
-<p>Another component that a database system may contain is the <em>process manager</em>. Its sub-components include the <em>admission controller</em>, which determines how many queries a system can handle at once, and the <em>connection manager</em>, which manages the connection between the users and the database.</p>
-
-<h2>Shared Utilities</h2>
-
-<p>A database management system may also include <em>shared utilities</em>, which includes the following components: </p>
-
-<ul><li><em>Admin utilities</em> provide different roles/permissions to each user.</li><li>The <em>memory manager</em> and the <em>disk space manager</em> are self-explanatory.</li><li><em>Replication services</em> are complex services that back up the data.</li></ul>
-</section> 
+    <h1>Notice</h1>
+    <p>While the author of this website is Marcus Bartlett, the content of this site was adapted from lecture notes taken from University of Washington Tacoma Professor Mohamed Ali's TCSS 445 course.</p>
+</section>
 <section id="md\02.md" class="notes-section"> 
 <h1>Introduction to Databases</h1>
 
@@ -89,7 +68,7 @@
 │ Employee ├─o──────◊──────┼─┤  Skill   │
 └──────────┘  Qualification  └──────────┘</code></pre>
 
-<p>This means each employee have at least one skill, but each skill need not be assigned to an employee. The above is an example of an <em>optional-to-mandatory</em> relationship. To say it again, in this course, we will be using the <strong>crow&#39;s foot</strong> ER diagrams. For a breakdown of all the symbols, you can visit <a href="https://www.vivekmchawla.com/erd-crows-foot-relationship-symbols-cheat-sheet/">this webpage</a>.</p>
+<p>This means each employee must have at least one skill, but each skill need not be assigned to an employee. The above is an example of an <em>optional-to-mandatory</em> relationship. To say it again, in this course, we will be using the <strong>crow&#39;s foot</strong> ER diagrams. For a breakdown of all the symbols, you can visit <a href="https://www.vivekmchawla.com/erd-crows-foot-relationship-symbols-cheat-sheet/">this webpage</a>.</p>
 
 <p>You are <em>not</em> allowed to put a many-to-many relationship in your ER diagrams! You must break them up into two one-to-many relationships through an intermediary. For example, rather than many students having many courses, one student has many &quot;student courses&quot; and one course has many &quot;student courses.&quot; The table of this &quot;student course&quot; entity would have one column for the student ID and another column for the course ID. Both attributes identify a specific &quot;student course.&quot;</p>
 
@@ -247,7 +226,7 @@ x → y</code></pre>
 
 <p>A <strong>normal form</strong> is a set of rules/conditions for a relations structure. There are five normal forms that we will study in this class and they all address redundancy:</p>
 
-<ul><li>First Normal Form (1NF): A table that qualifies as a relation is in 1NF. Each cell may only contain one value, which may be <code>NULL</code>.</li><li>Second Normal Form (2NF): A table in which there are no <em>partial dependencies</em> on the composite primary keys is in 2NF. Each attribute must be determined by all keys in a composite primary key. If an attribute isn&#39;t, then it must be moved to its own table with only the key(s) it is dependent on.</li><li>Third Normal Form (3NF): In a table in 3NF, there are no dependencies on non-key attributes.</li><li>Boyce-Codd Normal Form (BCNF): It is not allowed for a non-key column to determine a key column. If there are no such anomalies in a table, it is in BCNF. Otherwise, you must make tables where non-key columns do not determine key colums.</li><li>Fourth Normal Form (4NF): When there are several multi-valued dependencies, the table is not in 4NF. If <code>A →→ B</code> and <code>A →→ C</code>, then you must break these two relations up into two separate tables to prevent redundancy.</li></ul>
+<ul><li>First Normal Form (1NF): A table that qualifies as a relation is in 1NF. Each cell may only contain one value, which may be <code>NULL</code>.</li><li>Second Normal Form (2NF): A table in which there are no <em>partial dependencies</em> on the composite primary keys is in 2NF. Each attribute must be determined by all keys in a composite primary key. If an attribute isn&#39;t, then it must be moved to its own table with only the key(s) it is dependent on.</li><li>Third Normal Form (3NF): In a table in 3NF, there are no dependencies on non-key attributes.</li><li>Boyce-Codd Normal Form (BCNF): A non-key column cannot determine a key column. If this is the case, you must make tables where non-key columns do not determine key columns. Once this is done, the table is in BCNF.</li><li>Fourth Normal Form (4NF): When there are several multi-valued dependencies, the table is not in 4NF. If <code>A →→ B</code> and <code>A →→ C</code>, then you must break these two relations up into two separate tables to prevent redundancy.</li></ul>
 
 <p>Failure at any step in this process means that one must complete the process again from the beginning.</p>
 </section> 
@@ -279,7 +258,7 @@ Joe&#39;s   Miller  2.75
 Sue&#39;s   Bud     2.50
 Sue&#39;s   Miller  3.00</code></pre>
 
-<p>$$JoeMenu := \sigma_{bar = &quot;Joe&#39;s&quot;}(Sells)$$</p>
+<p>$$JoeMenu := \sigma_{bar = ``Joe&#39;s"}(Sells)$$</p>
 
 <p>This example selects all the beers from Joe&#39;s bar and makes a table out of them. The new table will not show Sue&#39;s beers.</p>
 
@@ -364,10 +343,6 @@ Sue&#39;s   Miller  3.00</code></pre>
 <p>What are the values of the aggregation operations on a table that includes a null value? As an example, if you use a theta-join on two tables where some columns will be null, you get either an <strong>outer join</strong>, which includes rows with null column entries, or an <strong>inner join</strong>, which includes only rows that have entirely non-null entries. An outer join is further divided into a <em>left outer join</em>, in which all entries of the first (left) table are non-null but entries of the second (right) table may be null, and a <em>right outer join</em>, which is the opposite. We say that outer join preserves <em>dangling tuples</em> by padding them with NULL ($$\omega$$). A dangling tuple is what you get when some entries are null.</p>
 
 <p>In cases where a Boolean value is expected, the truth-value of a null entry is <em>unknown</em>. This can result in unexpected behavior. For example, the expression <code>unknown == unknown</code> does <em>not</em> return &quot;true.&quot; This expression also returns &quot;unknown.&quot; Nothing is equal to null!</p>
-
-<h2>Note to the Student</h2>
-
-<p>I would highly recommend referring to the lecture slides when doing the third homework assignment. There is a lot going on here and these notes only cover a portion (albeit a large portion) of items discussed in the lecture videos.</p>
 </section> 
 <section id="md\08.md" class="notes-section"> 
 <h1>SQL Queries</h1>
@@ -402,7 +377,7 @@ ORDER BY OrderNumber, Price;</code></pre>
 
 <pre><code>WHERE Department = &#39;Water Sports&#39; AND Buyer = &#39;Nancy Meyers&#39;;</code></pre>
 
-<p>The where clause allows for use of the <strong>IN</strong> keyword, which is syntactical sugar for a series of <code>OR</code> statements:</p>
+<p>The where clause allows for use of the <strong>IN</strong> keyword, which is syntactic sugar for a series of <code>OR</code> statements:</p>
 
 <pre><code>WHERE Buyer IN (&#39;Nancy Meyers&#39;, &#39;Cindy Lo&#39;, &#39;Jerry Martin&#39;);</code></pre>
 
